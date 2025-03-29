@@ -1,0 +1,13 @@
+django
+django-allauth
+django-environ
+cloudinary
+python-decouple
+psycopg2
+pillow
+pyjwt
+requests
+cryptography
+django-cloudinary-storage
+django-cloudinary-storage[video]
+
