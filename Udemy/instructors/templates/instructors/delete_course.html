@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+
+{% block title %}Delete Course{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-danger">Delete Course</h2>
+        <p>Are you sure you want to delete <strong>"{{ course.title }}"</strong>? This action cannot be undone.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'courses:home' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ user_profile.username }}'s Profile{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto py-8 px-6">
+
+    <!-- Profile Header Section -->
+    <div class="text-center mb-8">
+        <h2 class="text-4xl font-semibold text-gray-800">{{ user_profile.username }}'s Profile</h2>
+        <p class="text-gray-600 mt-2">Joined on {{ user_profile.date_joined|date:"F d, Y" }}</p>
+    </div>
+
+    <!-- Profile Info Card -->
+    <div class="bg-white shadow-lg rounded-xl p-6 mb-8 border border-gray-200">
+        <div class="space-y-4">
+            <p class="text-xl font-medium text-gray-800"><strong>Username:</strong> {{ user_profile.username }}</p>
+            <p class="text-xl font-medium text-gray-800"><strong>Email:</strong> {{ user_profile.email }}</p>
+        </div>
+
+        {% if user_profile == request.user %}
+            <div class="mt-6">
+                <a href="{% url 'users:logout' %}" class="w-full px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105">
+                    Logout
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Enrolled Courses Section -->
+    <div class="mb-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Enrolled Courses</h3>
+        <ul class="space-y-4">
+            {% for course in enrolled_courses %}
+                <li class="border-b py-2">
+                    <a href="{% url 'courses:course_detail' course.slug %}" class="text-blue-600 hover:text-blue-800 font-semibold transition duration-300 ease-in-out">
+                        {{ course.title }}
+                    </a>
+                </li>
+            {% empty %}
+                <p class="text-gray-500">No enrolled courses.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Created Courses Section -->
+    {% if created_courses %}
+    <div class="mb-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Created Courses</h3>
+        <ul class="space-y-4">
+            {% for course in created_courses %}
+                <li class="border-b py-2">
+                    <a href="{% url 'courses:course_detail' course.slug %}" class="text-green-600 hover:text-green-800 font-semibold transition duration-300 ease-in-out">
+                        {{ course.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

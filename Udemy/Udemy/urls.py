@@ -7,6 +7,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # Include allauth URLs
     path('', include('courses.urls')),
     path('payments/', include('payments.urls')),
-    path('instructors', include('instructors.urls')),
+    path('instructors/', include('instructors.urls')),
     path('users/', include('users.urls')),
 ]

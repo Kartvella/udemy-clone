@@ -67,7 +67,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True,
+    slug = models.SlugField(blank=True,
                             help_text="""Slug for a course.
                             If not provided, default will be slugified title""")
     video = CloudinaryField(resource_type='video', blank=False, null=False)
@@ -104,7 +104,6 @@ class Enrollment(models.Model):
     user = models.ForeignKey(User, related_name='enrollments', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, related_name='enrollments', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    # progress = models.FloatField(default=0.0, help_text="Percentage of course completed")
 
     def __str__(self):
         return f"{self.user.username} enrolled in {self.course.title}"

@@ -1,0 +1,66 @@
+{% extends "core/base.html" %}
+
+{% block title %}Create Course{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center text-3xl font-semibold">Create a New Course</h2>
+    
+    <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger mb-6">
+                    <strong class="text-red-600">Errors:</strong>
+                    <ul class="list-disc pl-5 text-red-500">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Title -->
+            <div class="mb-4">
+                <label for="id_title" class="block text-lg font-medium text-gray-700">{{ form.title.label }}</label>
+                {{ form.title }}
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="id_description" class="block text-lg font-medium text-gray-700">{{ form.description.label }}</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Price -->
+            <div class="mb-4">
+                <label for="id_price" class="block text-lg font-medium text-gray-700">{{ form.price.label }}</label>
+                {{ form.price }}
+            </div>
+
+            <!-- Topic -->
+            <div class="mb-4">
+                <label for="id_topic" class="block text-lg font-medium text-gray-700">{{ form.topic.label }}</label>
+                {{ form.topic }}
+            </div>
+
+            <!-- Level -->
+            <div class="mb-4">
+                <label for="id_level" class="block text-lg font-medium text-gray-700">{{ form.level.label }}</label>
+                {{ form.level }}
+            </div>
+
+            <!-- Thumbnail -->
+            <div class="mb-4">
+                <label for="id_thumbnail" class="block text-lg font-medium text-gray-700">{{ form.thumbnail.label }}</label>
+                {{ form.thumbnail }}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300">Create Course</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

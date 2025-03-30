@@ -7,20 +7,27 @@
         <a href="{% url "courses:home" %}" class="flex items-center">
             <img src="{% static 'images/logo.svg' %}" alt="Udemy Logo" class="w-24">
         </a>
-        
-        {% comment %} <div class="flex space-x-6">
-            <a href="/courses" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">Courses</a>
-        </div> {% endcomment %}
+
+        <a href="{% url "courses:courses" %}" class="flex items-center">
+            <p class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">Courses</p>
+        </a>
 
         <div class="flex items-center space-x-4">
             {% if user.is_authenticated %}
                 <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
                     <a href="{% url 'users:my_profile' user.pk %}">My Profile</a>
                 </button>
+
+                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+                <a href="{% url "instructors:create_course" %}">
+                    Create Course
+                </a>
+                </button>
+                
                 <a href="{% url 'users:logout' %}" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300">Logout</a>
-            {% else %}
+                {% endif %}
+
                 <a href="{% provider_login_url 'google' %}?next=/" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">Login with Google</a>
-            {% endif %}
         </div>
     </div>
 </nav>

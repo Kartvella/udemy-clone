@@ -1,7 +1,17 @@
 
 from pathlib import Path
 import os, cloudinary, cloudinary.api, cloudinary.uploader
+import paypalrestsdk
 
+PAYPAL_SANDBOX_CLIENT_ID = os.environ.get('PAYPAL_SANDBOX_CLIENT_ID')
+PAYPAL_SANDBOX_SECRET = os.environ.get('PAYPAL_SANDBOX_SECRET')
+
+
+paypalrestsdk.configure({
+    "mode": "sandbox", 
+    "client_id": PAYPAL_SANDBOX_CLIENT_ID,
+    "client_secret": PAYPAL_SANDBOX_SECRET
+})
 
 cloudinary.config(
     cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME'),
@@ -22,7 +32,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Auth related
     'django.contrib.sites',
 
 
@@ -38,12 +48,13 @@ INSTALLED_APPS = [
     'instructors',
     'courses',
 
+    # django all-auth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
-
+    # cloudinary 
     'cloudinary',
 
 ]
@@ -54,7 +65,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # Default Django
 )
 
-
+# all-auth related
 SITE_ID=1
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -146,3 +157,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Mail configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')

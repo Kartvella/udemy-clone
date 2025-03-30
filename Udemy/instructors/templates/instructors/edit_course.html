@@ -1,0 +1,91 @@
+{% extends "core/base.html" %}
+
+{% block title %}Edit Course - {{ course.title }}{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 mt-10">
+
+    <!-- Title -->
+    <h2 class="text-4xl font-bold text-gray-800 mb-6 text-center">
+        Edit Course
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% csrf_token %}
+
+        <!-- Display form errors -->
+        {% if form.errors %}
+            <div class="col-span-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+                <strong class="font-semibold">Errors:</strong>
+                <ul class="list-disc ml-5 mt-2">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- Left Column (Form Fields) -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.title.label }}</label>
+                <input type="text" name="title" value="{{ form.title.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Course Title">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.description.label }}</label>
+                <textarea name="description" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Course Description">{{ form.description.value }}</textarea>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.price.label }}</label>
+                <input type="text" name="price" value="{{ form.price.value }}" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Course Price">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.topic.label }}</label>
+                <select name="topic" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    {% for choice in form.topic.field.choices %}
+                        <option value="{{ choice.0 }}" {% if form.topic.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.level.label }}</label>
+                <select name="level" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    {% for choice in form.level.field.choices %}
+                        <option value="{{ choice.0 }}" {% if form.level.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Right Column (Thumbnail & Actions) -->
+        <div class="space-y-6">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">{{ form.thumbnail.label }}</label>
+                <input type="file" name="thumbnail" class="w-full p-3 border border-gray-300 rounded-lg">
+
+                {% if course.thumbnail %}
+                    <div class="mt-4 flex justify-center">
+                        <img src="{{ course.thumbnail.url }}" alt="Course Thumbnail" class="rounded-lg shadow-md w-48 h-32 object-cover">
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-col gap-3">
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
+                    Save Changes
+                </button>
+                <a href="{% url 'courses:home' %}" class="px-6 py-3 bg-gray-400 text-white font-semibold rounded-lg hover:bg-gray-500 transition duration-300 shadow-md text-center">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
