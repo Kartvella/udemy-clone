@@ -3,16 +3,16 @@
 {% block title %}Add Lesson - {{ course.title }}{% endblock %}
 
 {% block body %}
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-    <h2 class="text-3xl font-semibold text-gray-800 mb-6">Add a New Lesson to {{ course.title }}</h2>
+<div class="max-w-3xl mx-auto py-10 px-6 bg-white shadow-xl rounded-lg">
+    <h2 class="mb-6 text-center text-4xl font-bold text-gray-800">Add a New Lesson to {{ course.title }}</h2>
 
     <form method="POST" enctype="multipart/form-data" class="space-y-6">
         {% csrf_token %}
         
         {% if form.errors %}
-            <div class="bg-red-100 text-red-700 p-4 rounded-lg border-l-4 border-red-500">
-                <strong class="font-bold">Errors:</strong>
-                <ul class="list-disc pl-5">
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+                <strong>Errors:</strong>
+                <ul class="list-disc pl-5 mt-2">
                     {% for field in form %}
                         {% for error in field.errors %}
                             <li>{{ error }}</li>
@@ -21,35 +21,17 @@
                 </ul>
             </div>
         {% endif %}
-        
-        <!-- Title Field -->
-        <div class="mb-4">
-            <label for="id_title" class="block text-lg font-medium text-gray-700">{{ form.title.label }}</label>
-            {{ form.title }}
-        </div>
-        
-        <!-- Description Field -->
-        <div class="mb-4">
-            <label for="id_description" class="block text-lg font-medium text-gray-700">{{ form.description.label }}</label>
-            {{ form.description }}
-        </div>
+
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}" class="block text-lg font-medium text-gray-700">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
     
-        <!-- Video Field -->
-        <div class="mb-4">
-            <label for="id_video" class="block text-lg font-medium text-gray-700">{{ form.video.label }}</label>
-            {{ form.video }}
-        </div>
-    
-        <!-- Order Field -->
-        <div class="mb-4">
-            <label for="id_order" class="block text-lg font-medium text-gray-700">{{ form.order.label }}</label>
-            {{ form.order }}
-        </div>
-    
-        <!-- Submit Button -->
         <div class="flex justify-between items-center">
-            <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add Lesson</button>
-            <a href="{% url 'courses:course_detail' slug=course.slug %}" class="w-full sm:w-auto px-6 py-3 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mt-4 sm:mt-0">Cancel</a>
+            <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:bg-gradient-to-l hover:from-blue-600 hover:to-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Add Lesson</button>
+            <a href="{% url 'courses:course_detail' slug=course.slug %}" class="w-full sm:w-auto px-6 py-3 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-300 ease-in-out transform hover:scale-105 shadow">Cancel</a>
         </div>
     </form>
 </div>

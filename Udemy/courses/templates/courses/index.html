@@ -5,21 +5,21 @@ Udemy Clone
 {% endblock title %}
 
 {% block body %}
-<div class="max-w-screen-xl mx-auto py-8 px-4">
+<div class="max-w-screen-xl mx-auto py-12 px-6">
 
     <!-- Search Form -->
-    <form method="GET" action="{% url 'courses:home' %}" class="mb-8 flex justify-center items-center space-x-4">
+    <form method="GET" action="{% url 'courses:home' %}" class="mb-12 flex justify-center items-center space-x-4">
         <input 
             type="text" 
             name="q" 
             value="{{ query }}" 
             placeholder="Search courses..." 
-            class="w-full max-w-md px-6 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            class="w-full max-w-lg px-6 py-3 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
             aria-label="Search for courses"
         />
         <button 
             type="submit" 
-            class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:bg-gradient-to-l hover:from-blue-600 hover:to-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105"
+            class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:bg-gradient-to-l hover:from-blue-600 hover:to-blue-500 transition-all duration-300 ease-in-out transform hover:scale-110"
         >
             Search
         </button>
@@ -28,22 +28,22 @@ Udemy Clone
     <!-- Display Top 3 Courses per Topic -->
     {% for topic, top_courses in top_courses_by_topic.items %}
         {% if top_courses %}
-            <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">{{ topic.name }} - Top Courses</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <h2 class="text-4xl font-extrabold text-gray-900 mt-12 mb-8 border-b-4 border-blue-500 inline-block pb-2">{{ topic.name }} - Top Courses</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
 
                 {% for course in top_courses %}
-                <div class="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105">
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
                     <div class="relative">
                         <!-- Course Thumbnail -->
                         {% if course.thumbnail %}
-                            <img src="{{ course.thumbnail.url }}" alt="Thumbnail for {{ course.title }}" class="w-full h-48 object-cover rounded-t-xl">
+                            <img src="{{ course.thumbnail.url }}" alt="Thumbnail for {{ course.title }}" class="w-full h-56 object-cover rounded-t-2xl">
                         {% else %}
-                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500 rounded-t-xl">
+                            <div class="w-full h-56 bg-gray-200 flex items-center justify-center text-gray-500 rounded-t-2xl">
                                 No Thumbnail Available
                             </div>
                         {% endif %}
-                        <div class="absolute bottom-4 left-4 bg-black bg-opacity-60 text-white px-6 py-3 rounded-lg shadow-lg">
-                            <p class="font-semibold text-xl">{{ course.title }}</p>
+                        <div class="absolute bottom-4 left-4 bg-black bg-opacity-60 text-white px-6 py-2 rounded-lg shadow-lg">
+                            <p class="font-bold text-lg">{{ course.title }}</p>
                         </div>
                     </div>
 
@@ -52,23 +52,23 @@ Udemy Clone
                         <p class="text-gray-700 text-lg">{{ course.description|truncatewords:20 }}</p>
                         <p class="text-gray-600 mt-4 text-sm"><strong>Instructor:</strong> {{ course.instructor.username }}</p>
                         {% if course.price == 0 %}
-                        <p class="text-gray-600 text-sm"><strong>Price:</strong><span class='text-green-600'>Free</span></p>
+                        <p class="text-gray-600 text-sm"><strong>Price:</strong> <span class='text-green-600 font-bold'>Free</span></p>
                         {% else %}
-                        <p class="text-gray-600 text-sm"><strong>Price:</strong> ${{ course.price }}</p>
+                        <p class="text-gray-600 text-sm"><strong>Price:</strong> <span class='text-blue-600 font-bold'>${{ course.price }}</span></p>
                         {% endif %}
                         <p class="text-gray-600 text-sm"><strong>Rating:</strong> ⭐ {{ course.rating|floatformat:1 }}</p>
 
                         <!-- Action Buttons -->
                         <div class="mt-6 flex justify-between items-center space-x-4">
                             <a href="{% url 'courses:course_detail' course.slug %}" 
-                               class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-gradient-to-l hover:from-green-600 hover:to-green-500 transition-all duration-300 ease-in-out transform hover:scale-105">
+                               class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-full shadow-md hover:bg-gradient-to-l hover:from-green-600 hover:to-green-500 transition-all duration-300 ease-in-out transform hover:scale-105">
                                 View Details
                             </a>
 
                             {% if user.is_authenticated %}
                                 {% if course in user.enrollments.all %}
                                     <a href="{% url 'courses:add_review' course.pk %}" 
-                                       class="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-105">
+                                       class="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-semibold rounded-full shadow-md hover:bg-gradient-to-l hover:from-yellow-500 hover:to-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-105">
                                         Leave a Review
                                     </a>
                                 {% endif %}
@@ -77,8 +77,8 @@ Udemy Clone
 
                         <!-- Edit Course (Instructor only) -->
                         {% if user == course.instructor %}
-                        <a href="{% url 'instructors:edit_course' course.slug %}">
-                            <p class="text-green-500 mt-4 font-semibold text-sm hover:text-green-600 transition duration-300 ease-in-out">Edit Course</p>
+                        <a href="{% url 'instructors:edit_course' course.slug %}" class="block text-green-500 mt-4 font-semibold text-sm hover:text-green-600 transition duration-300 ease-in-out">
+                            Edit Course
                         </a>
                         {% endif %}
                     </div>

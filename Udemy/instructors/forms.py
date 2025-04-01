@@ -26,15 +26,3 @@ class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['title', 'description', 'video', 'order']
-        # widgets = {
-        #     'description': forms.Textarea(attrs={'rows': 4}),
-        #     'video': forms.ClearableFileInput(attrs={'accept': 'video/*'}),
-        # }
-
-    # def save(self, commit=False):
-
-    #     lesson = super().save(commit=False)
-
-    #     self.course = lesson.course
-
-    #     super().save()

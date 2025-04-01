@@ -5,7 +5,6 @@ from courses.models import Course, Lesson
 from .forms import CourseCreateForm, LessonForm
 
 
-# Create Course
 @login_required
 def create_course(request):
     if request.method == "POST":
@@ -22,7 +21,6 @@ def create_course(request):
 def add_lesson(request, course_slug):
     course = get_object_or_404(Course, slug=course_slug)
 
-    # Ensure the user is the instructor of the course
     if request.user != course.instructor:
         messages.error(request, "You do not have permission to add lessons to this course.")
         return redirect('courses:course_detail', slug=course.slug)
@@ -42,7 +40,7 @@ def add_lesson(request, course_slug):
 
 @login_required
 def edit_course(request, slug):
-    course = get_object_or_404(Course, slug=slug, instructor=request.user)  # Ensure instructor owns course
+    course = get_object_or_404(Course, slug=slug, instructor=request.user)
 
     if request.method == "POST":
         form = CourseCreateForm(request.POST, request.FILES, instance=course, user=request.user)
@@ -59,7 +57,6 @@ def edit_lesson(request, course_slug, lesson_slug):
     course = get_object_or_404(Course, slug=course_slug)
     lesson = get_object_or_404(Lesson, slug=lesson_slug, course=course)
 
-    # Ensure the user is the instructor of the course
     if request.user != course.instructor:
         messages.error(request, "You do not have permission to edit this lesson.")
         return redirect('courses:course_detail', slug=course.slug)

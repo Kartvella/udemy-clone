@@ -1,5 +1,5 @@
 import paypalrestsdk
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
@@ -50,16 +50,12 @@ def create_payment(request, course_id):
 
 
 def assign_lesson_permissions(user, course):
-    # Get all lessons for the given course
     lessons = Lesson.objects.filter(course=course)
 
-    # Get "view_lesson" permission
     content_type = ContentType.objects.get_for_model(Lesson)
     permission = Permission.objects.get(codename="view_lesson", content_type=content_type)
 
-    # Assign "view_lesson" permission to the user for each lesson
     for lesson in lessons:
-        # You can add permission only once for each lesson
         if not user.has_perm("courses.view_lesson", lesson):
             user.user_permissions.add(permission)
 

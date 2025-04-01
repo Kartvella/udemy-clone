@@ -14,23 +14,39 @@
             <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ course.title }}</h1>
             <p class="text-gray-600 mb-4">{{ course.description }}</p>
             <p class="text-xl text-green-600 font-semibold">Price: ${{ course.price }}</p>
-            <p class="text-gray-500 mt-2">Instructor: <span class="font-semibold">{{ course.instructor.username }}</span></p>
-
-            <!-- Enrollment Button -->
-            {% if user.is_authenticated %}
             
-                {% if not is_enrolled and not is_instructor %}  <!-- Only show if user is not enrolled and is not the instructor -->
-                    <a href="{% url 'payments:create_payment' course.id %}" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg">
-                        Enroll and Pay Now
-                    </a>
+            <p class="text-gray-500 mt-2">Instructor: <span class="font-semibold">{{ course.instructor.username }}</span></p>
+            <p class="text-gray-500">Level: <span class="font-semibold">{{ course.get_level_display }}</span></p>
+            <p class="text-gray-500">Topic: <span class="font-semibold">{{ course.topic.name }}</span></p>
+            
+            <!-- Rating -->
+            <p class="mt-2 text-yellow-500">
+                Rating: 
+                {% if course.rating %}
+                    {{ course.rating }} / 5
                 {% else %}
-                    <p class="mt-4 text-green-600 font-semibold">You are already enrolled in this course.</p>
+                    No ratings yet
                 {% endif %}
-            {% else %}
-                <p class="mt-4 text-red-500">You must be logged in to enroll in this course.</p>
-            {% endif %}
+            </p>
+            <p class="text-gray-500">Total Reviews: <span class="font-semibold">{{ course.total_reviews }}</span></p>
+            <p class="text-gray-500">Total Enrolled: <span class="font-semibold">{{ course.students.count }}</span></p>
         </div>
     </div>
+
+    <!-- Enroll Button moved below the course details -->
+    {% if user.is_authenticated %}
+        {% if not is_enrolled and not is_instructor %}  <!-- Only show if user is not enrolled and is not the instructor -->
+            <div class="flex justify-center">
+                <a href="{% url 'payments:create_payment' course.id %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg">
+                    Enroll and Pay Now
+                </a>
+            </div>
+        {% else %}
+            <p class="mt-4 text-green-600 font-semibold text-center">You are already enrolled in this course.</p>
+        {% endif %}
+    {% else %}
+        <p class="mt-4 text-red-500 text-center">You must be logged in to enroll in this course.</p>
+    {% endif %}
 
     <!-- Lessons Section -->
     {% if is_enrolled or is_instructor %}
